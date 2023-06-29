@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div id="hour" class="hand hour-hand"></div>
+        <div id="min" class="hand min-hand"></div>
+        <div id='second' class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 20px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width: 50%;
+      height: 6px;
+      background: black;
+      position: absolute;
+      top: 50%;
+      transform: rotate(90deg);
+      transform-origin: 100% 50%;
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.075, 2.7, 0.58, 1);
+    }
+
+  </style>
+
+  <script>
+    const secondHand = document.getElementById('second'); // or you can use document.querySelector() instead if the ID's aren't supplied
+    const minHand = document.getElementById('min');
+    const hourHand = document.getElementById('hour');
+
+    function setDate() {
+      const now = new Date();
+
+      const seconds = now.getSeconds();
+      const secondsDegrees = (seconds/60) * 360;
+
+      const minutes = now.getMinutes();
+      const minutesDegrees = (minutes/60) * 360;
+
+      const hours = now.getHours();
+      const hoursDegrees = (hours/12) * 360;
+
+      secondHand.style.transform = 'rotate(' + secondsDegrees + 'deg)';
+      minHand.style.transform = 'rotate(' + minutesDegrees + 'deg)';
+      hourHand.style.transform = 'rotate(' + hoursDegrees + 'deg)';
+    }
+
+    // Best thing to do would be to convert the seconds to degrees and then pass that to the css attributes on the element
+
+    setInterval(setDate, 1000);
+
+
+    // The code below is a great example for why we don't use everything that chatGPT gives us. It was very verbose but my prompt could have been more specific.
+
+    // function getRotationValue(element){
+    //   var transformValue = element.style.transform;
+    //   var rotationRegex = /rotate\((-?\d+(\.\d+)?|\d+)deg\)/; // Regex to extract the rotation value /rotate\((-?\d+(\.\d+)?|\d+)deg\)/
+    //   var match = transformValue.match(rotationRegex);
+
+    //   if (match && match[1]) {
+    //     console.log(match[1]);
+    //     return parseInt(match[1]); // Parse the rotation value as an integer
+    //   }
+    //   return 90;
+    // }
+
+    // function increaseSecond(){
+    //   let secondHand = document.getElementById('second');
+    //   let secondRotation = getRotationValue(secondHand); 
+    //   let secondTick = secondRotation + 6;
+
+    //   secondHand.style.transform = 'rotate(' + secondTick + 'deg)';
+     
+    // }
+    // function increaseMinute(){
+    //   let minHand = document.getElementById('min');
+    //   let minRotation = getRotationValue(minHand);
+    //   let minTick = minRotation + (6/360);
+  
+    //   minHand.style.transform = 'rotate(' + minTick + 'deg)';
+    // }
+    // function increaseHour(){
+    //   let hourHand = document.getElementById('hour');
+    //   let hourRotation = getRotationValue(hourHand);
+    //   let hourTick = hourRotation + (6/21600);
+
+    //   hourHand.style.transform = 'rotate(' + hourTick + 'deg)';
+    // }
+
+  </script>
+</body>
+</html>
